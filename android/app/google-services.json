@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "647177706994",
+    "project_id": "meal-list-app",
+    "storage_bucket": "meal-list-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647177706994:android:2522f53540e10fea2b5f6b",
+        "android_client_info": {
+          "package_name": "com.kzjstuidos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647177706994-1vn9p6ovib3id0q18h990bv57n74mfp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlSgvEC0s5E9LTQixXZ5Cc2FTe4tWfIyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647177706994-1vn9p6ovib3id0q18h990bv57n74mfp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
