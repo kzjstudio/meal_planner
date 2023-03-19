@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:meal_planner/dummy_data.dart';
 import 'package:meal_planner/widgets/meal_item.dart';
 import '../models/meal.dart';
@@ -18,38 +19,43 @@ class _CatergoryMealScreenState extends State<CatergoryMealScreen> {
   // const CatergoryMealScreen(
   @override
   Widget build(BuildContext context) {
-    final displayedMeals = DUMMY_MEALS.where((meal) {
-      return meal.categories.contains(widget.id);
-    }).toList();
-    final docRef =
-        FirebaseFirestore.instance.collection('meals').doc('meals by category');
+    final db = FirebaseFirestore.instance;
+    final meal = db.collection('meals by id');
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: FutureBuilder(
-          future: docRef.get(),
-          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          future: meal.get(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             }
+
             if (snapshot.connectionState == ConnectionState.done) {
-              Map<String, dynamic> data =
-                  snapshot.data!.data() as Map<String, dynamic>;
-              final listdata = data["meal"];
+              final data = snapshot.data!.docs;
+              final mealToDisplay = data.where((meal) {
+                return meal["categories"].contains(widget.id);
+              }).toList();
+
               return ListView.builder(
-                itemBuilder: (context, index) {
-                  return MealItem(
-                      id: listdata[index]["id"],
-                      title: listdata[index]["title"],
-                      imageUrl: listdata[index]["imageUrl"],
-                      duration: listdata[index]["duration"],
-                      complexity: listdata[index]["complexity"],
-                      affordability: listdata[index]["affordability"]);
-                },
-                itemCount: displayedMeals.length,
-              );
+                  itemCount: mealToDisplay.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: MealItem(
+                          id: mealToDisplay[index]["id"],
+                          title: mealToDisplay[index]["title"],
+                          imageUrl: mealToDisplay[index]["imageUrl"],
+                          duration: mealToDisplay[index]["duration"],
+                          complexity: mealToDisplay[index]["complexity"],
+                          affordability: mealToDisplay[index]["affordability"]),
+                    );
+                  });
             }
 
-            return Text("loading");
+            return Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.green, size: 50),
+            );
           }),
     );
   }

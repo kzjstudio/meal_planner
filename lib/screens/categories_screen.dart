@@ -12,8 +12,7 @@ class CatergoriesScreen extends StatefulWidget {
 }
 
 class _CatergoriesScreenState extends State<CatergoriesScreen> {
-  final docRef =
-      FirebaseFirestore.instance.collection('meals').doc('Categories');
+  CollectionReference docRef = FirebaseFirestore.instance.collection('meals');
   final Color color = Colors.orange;
 
   final colors = const [
@@ -43,25 +42,24 @@ class _CatergoriesScreenState extends State<CatergoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: docRef.get(),
+    return FutureBuilder<DocumentSnapshot>(
+        future: docRef.doc("Categories").get(),
         builder: ((context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("Something went wrong");
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            final listData = data["Category"];
+            final listData = snapshot.data!.data() as Map<String, dynamic>;
+            final data = listData["Category"];
 
             return GridView.builder(
-              itemCount: listData.length,
+              itemCount: data.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    selectCategory(context, listData[index]["id"],
-                        listData[index]["title"]);
+                    selectCategory(
+                        context, data[index]["id"], data[index]["title"]);
                   },
                   child: Container(
                       padding: EdgeInsets.all(15),
@@ -69,7 +67,7 @@ class _CatergoriesScreenState extends State<CatergoriesScreen> {
                           color: colors[index],
                           borderRadius: BorderRadius.circular(15)),
                       child: Text(
-                        listData[index]["title"],
+                        data[index]["title"],
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )),
                 );
