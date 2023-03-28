@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:meal_planner/providers/firebase_provider.dart';
 import 'package:meal_planner/screens/categories_screen.dart';
 import 'package:meal_planner/screens/favorites_screen.dart';
 import 'package:meal_planner/widgets/main_drawer.dart';
+import 'package:provider/provider.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -21,14 +23,6 @@ class _TabsScreenState extends State<TabsScreen> {
       {"page": CatergoriesScreen(), "title": "Categories"},
       {"page": FavoritesScreen(), "title": "Favorites"},
     ];
-
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print("User is signed in");
-      }
-    });
     super.initState();
   }
 

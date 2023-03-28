@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meal_planner/dummy_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/meal.dart';
-
 class MealDetailScreen extends StatelessWidget {
   static const routName = "/MealDetailsscreen";
   MealDetailScreen({

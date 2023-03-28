@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/screens/category_meals_screen.dart';
-import 'package:meal_planner/widgets/category_item.dart';
-import '../dummy_data.dart';
 
 class CatergoriesScreen extends StatefulWidget {
   CatergoriesScreen({super.key});

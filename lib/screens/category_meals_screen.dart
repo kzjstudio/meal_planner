@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:meal_planner/dummy_data.dart';
 import 'package:meal_planner/widgets/meal_item.dart';
-import '../models/meal.dart';
 
 class CatergoryMealScreen extends StatefulWidget {
   static const routName = "/category-meals";
