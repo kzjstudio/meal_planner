@@ -15,20 +15,35 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign-in')),
-      drawer: MainDrawer(),
-      body: TextButton(
-        onPressed: () async {
-          var result = await auth.signInAnon();
-          print(result.uid);
-        },
-        child: Text('Sign in'),
+      backgroundColor: Colors.green,
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: const Text('Sign-in'),
+        elevation: 0,
       ),
-      floatingActionButton: TextButton(
-        onPressed: () {
-          auth.signout();
-        },
-        child: Text('sign out'),
+      drawer: MainDrawer(),
+      body: ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+        child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Form(
+                    child: Column(children: [
+                      SizedBox(
+                        height: 200,
+                      ),
+                      TextFormField(
+                        initialValue: 'Email',
+                      ),
+                    ]),
+                  )
+                ],
+              ),
+            )),
       ),
     );
   }
