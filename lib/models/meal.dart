@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Meal {
   final String id;
   final List<String> categories;

@@ -2,12 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/dummy_data.dart';
+<<<<<<< HEAD
 import 'package:meal_planner/models/user.dart';
 import 'package:meal_planner/screens/favorites_screen.dart';
 import 'package:meal_planner/screens/filters_screen.dart';
 import 'package:meal_planner/screens/meal_detail_screen.dart';
 import 'package:meal_planner/screens/tabs_screen.dart';
 import 'package:meal_planner/services/auth.dart';
+=======
+import 'package:meal_planner/providers/firebase_provider.dart';
+import 'package:meal_planner/screens/filters_screen.dart';
+import 'package:meal_planner/screens/meal_detail_screen.dart';
+import 'package:meal_planner/screens/tabs_screen.dart';
+>>>>>>> 8de3b4eb098985d162541d2818f497cdfd90c3f4
 import 'package:provider/provider.dart';
 
 import 'models/meal.dart';
@@ -60,9 +67,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return StreamProvider<TheUser?>.value(
       initialData: null,
       value: AuthService().user,
+=======
+    return ChangeNotifierProvider(
+      create: (context) => authService(),
+>>>>>>> 8de3b4eb098985d162541d2818f497cdfd90c3f4
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Meals App',
@@ -78,7 +90,10 @@ class _MyAppState extends State<MyApp> {
               ),
           FiltersScreen.routeName: (context) =>
               FiltersScreen(_setFilters, _filters),
+<<<<<<< HEAD
           FavoritesScreen.routeName: (context) => FavoritesScreen(),
+=======
+>>>>>>> 8de3b4eb098985d162541d2818f497cdfd90c3f4
         },
       ),
     );
