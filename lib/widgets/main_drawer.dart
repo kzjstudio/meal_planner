@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:meal_planner/screens/favorites_screen.dart';
 import 'package:meal_planner/screens/filters_screen.dart';
 import 'package:meal_planner/screens/tabs_screen.dart';
 
@@ -51,6 +52,9 @@ class MainDrawer extends StatelessWidget {
           }),
           buildListTile("Filters", Icons.settings, () {
             Navigator.of(context).pushNamed(FiltersScreen.routeName);
+          }),
+          buildListTile("Favorites", Icons.favorite, () {
+            Navigator.of(context).pushNamed(FavoritesScreen.routeName);
           }),
         ],
       ),

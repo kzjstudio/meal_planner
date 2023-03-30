@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/dummy_data.dart';
-import 'package:meal_planner/screens/category_meals_screen.dart';
+import 'package:meal_planner/models/user.dart';
+import 'package:meal_planner/screens/favorites_screen.dart';
 import 'package:meal_planner/screens/filters_screen.dart';
 import 'package:meal_planner/screens/meal_detail_screen.dart';
 import 'package:meal_planner/screens/tabs_screen.dart';
+import 'package:meal_planner/services/auth.dart';
+import 'package:provider/provider.dart';
 
 import 'models/meal.dart';
 
@@ -56,22 +60,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Meals App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return StreamProvider<TheUser?>.value(
+      initialData: null,
+      value: AuthService().user,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Meals App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        // home: const TabsScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (ctx) => TabsScreen(),
+          MealDetailScreen.routName: (context) => MealDetailScreen(
+                id: "",
+              ),
+          FiltersScreen.routeName: (context) =>
+              FiltersScreen(_setFilters, _filters),
+          FavoritesScreen.routeName: (context) => FavoritesScreen(),
+        },
       ),
-      // home: const TabsScreen(),
-      initialRoute: '/',
-      routes: {
-        '/': (ctx) => TabsScreen(),
-        MealDetailScreen.routName: (context) => MealDetailScreen(
-              id: "",
-            ),
-        FiltersScreen.routeName: (context) =>
-            FiltersScreen(_setFilters, _filters),
-      },
     );
   }
 }
