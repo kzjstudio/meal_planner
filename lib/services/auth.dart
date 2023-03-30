@@ -25,7 +25,5 @@ class AuthService with ChangeNotifier {
 
   void signout() {
     _auth.signOut();
-    notifyListeners();
   }
-  // sign in wih email and password
 }
