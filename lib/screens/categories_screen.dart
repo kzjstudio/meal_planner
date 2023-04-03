@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:meal_planner/screens/category_meals_screen.dart';
 
 class CatergoriesScreen extends StatefulWidget {
@@ -79,7 +80,10 @@ class _CatergoriesScreenState extends State<CatergoriesScreen> {
             );
           }
 
-          return Text("loading");
+          return Center(
+            child: LoadingAnimationWidget.fourRotatingDots(
+                color: Theme.of(context).primaryColor, size: 50),
+          );
         }));
   }
 }
