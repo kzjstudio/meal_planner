@@ -15,9 +15,8 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        backgroundColor: Colors.green,
         title: const Text('Sign-in'),
         elevation: 0,
       ),
@@ -28,20 +27,31 @@ class _SigninScreenState extends State<SigninScreen> {
         child: Container(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Form(
-                    child: Column(children: [
-                      SizedBox(
-                        height: 200,
-                      ),
-                      TextFormField(
-                        initialValue: 'Email',
-                      ),
-                    ]),
-                  )
-                ],
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                child: ListView(children: [
+                  const SizedBox(
+                    height: 200,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(label: Text('Email')),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(label: Text('Password')),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {},
+                          child: const Text('Forgot your password?'))
+                    ],
+                  ),
+                  FilledButton(onPressed: () {}, child: Text('Login'))
+                ]),
               ),
             )),
       ),

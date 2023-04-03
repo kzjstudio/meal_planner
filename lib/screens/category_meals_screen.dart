@@ -52,7 +52,7 @@ class _CatergoryMealScreenState extends State<CatergoryMealScreen> {
 
             return Center(
               child: LoadingAnimationWidget.fourRotatingDots(
-                  color: Colors.green, size: 50),
+                  color: Theme.of(context).primaryColor, size: 50),
             );
           }),
     );

@@ -60,6 +60,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<TheUser?>.value(
+      catchError: (_, __) => null,
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
