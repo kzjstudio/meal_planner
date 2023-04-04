@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/models/user.dart';
 import 'package:meal_planner/screens/signin_screen.dart';
@@ -14,43 +15,51 @@ class FavoritesScreen extends StatefulWidget {
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
+List<String> favoritesRetrived = [];
+final db = FirebaseFirestore.instance;
+
 void delete() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.remove('favorites');
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
-  @override
-  Widget build(BuildContext context) {
-    TheUser? user = Provider.of<TheUser?>(context);
-    print(user);
-
-    return user != null ? FavScreen() : SigninScreen();
-  }
+void getFavorites() async {
+  final prefs = await SharedPreferences.getInstance();
+  final List<String>? favorites = prefs.getStringList('favorites');
+  favoritesRetrived.addAll(favorites!);
+  print(favoritesRetrived);
 }
 
-Widget FavScreen() {
-  AuthService auth = AuthService();
-  return Scaffold(
-    appBar: AppBar(title: Text('Favorites')),
-    drawer: MainDrawer(),
-    body: Center(
-      child: Column(
-        children: [
-          IconButton(
-              onPressed: () {
-                delete();
-              },
-              icon: Icon(Icons.delete)),
-          Text("You have no favorites. Please add some!"),
-        ],
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  @override
+  void initState() {
+    getFavorites();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Favorites')),
+      drawer: MainDrawer(),
+      body: Center(
+        child: Column(
+          children: [
+            IconButton(
+                onPressed: () {
+                  delete();
+                },
+                icon: Icon(Icons.delete)),
+            Text("You have no favorites. Please add some!"),
+          ],
+        ),
       ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        auth.signout();
-      },
-      child: Icon(Icons.get_app),
-    ),
-  );
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          auth.signout();
+        },
+        child: Icon(Icons.get_app),
+      ),
+    );
+  }
 }
