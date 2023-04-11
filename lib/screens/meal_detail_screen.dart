@@ -21,7 +21,7 @@ class MealDetailScreen extends StatelessWidget {
       favoriteList = result as List<String>;
       favoriteList.add(meal);
       await prefs.setStringList(favorites, favoriteList);
-      print("Updated");
+      print(favoriteList);
     } else {
       List<String> list = [];
       list.add(meal);
@@ -104,7 +104,7 @@ class MealDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          saveFavoriteMeal(selectedMeal.id);
+          saveFavoriteMeal(selectedMeal.title);
         },
         child: Icon(Icons.star_border),
       ),
