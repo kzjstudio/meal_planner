@@ -14,71 +14,64 @@ class FavoritesScreen extends StatefulWidget {
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-List<String> favoritesRetrived = [];
-final db = FirebaseFirestore.instance;
-final meal = db.collection('meals by id');
-
-void getFavorites() async {
-  final prefs = await SharedPreferences.getInstance();
-  final List<String>? favorites = prefs.getStringList('favorites');
-  favoritesRetrived.addAll(favorites!);
-}
-
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  List<String> favoritesRetrived = [];
+  List<Map<String, dynamic>> tempList = [];
+
+  late List<Map<String, dynamic>> mealToDisplay;
+  bool isLoaded = false;
+
+  void getFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? favorites = prefs.getStringList('favorites');
+    favoritesRetrived.addAll(favorites!);
+  }
+
+  _displayData() async {
+    final db = FirebaseFirestore.instance.collection('meals by id');
+    List<Map<String, dynamic>> newList = [];
+    var data = await db.get();
+    data.docs.forEach((element) {
+      tempList.add(element.data());
+      for (var mealTitle in favoritesRetrived) {
+        newList.add(tempList.where((element) => element["title"] == mealTitle)
+            as Map<String, dynamic>);
+      }
+    });
+    setState(() {
+      mealToDisplay = newList;
+      isLoaded = true;
+    });
+  }
+
   @override
   void initState() {
     getFavorites();
+    _displayData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favorites')),
-      drawer: const MainDrawer(),
-      body: FutureBuilder(
-          future: meal.get(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return const Text("Something went wrong");
-            }
-
-            if (snapshot.connectionState == ConnectionState.done) {
-              final data = snapshot.data!.docs;
-              var mealToDisplay;
-
-              for (var id in favoritesRetrived) {
-                mealToDisplay =
-                    data.where((meal) => meal["title"].contains(id)).toList();
-              }
-
-              print(mealToDisplay.isEmpty);
-
-              return mealToDisplay.isEmpty
-                  ? Center(
-                      child: Text("You need to add favorites"),
-                    )
-                  : ListView.builder(
-                      itemCount: mealToDisplay.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: MealItem(
-                              id: mealToDisplay[index]["id"],
-                              title: mealToDisplay[index]["title"],
-                              imageUrl: mealToDisplay[index]["imageUrl"],
-                              duration: mealToDisplay[index]["duration"],
-                              complexity: mealToDisplay[index]["complexity"],
-                              affordability: mealToDisplay[index]
-                                  ["affordability"]),
-                        );
-                      });
-            }
-
-            return Center(
-              child: LoadingAnimationWidget.fourRotatingDots(
-                  color: Theme.of(context).primaryColor, size: 50),
-            );
-          }),
-    );
+        appBar: AppBar(title: const Text('Favorites')),
+        drawer: const MainDrawer(),
+        body: !isLoaded
+            ? Center(
+                child: const Text("You need to add favorites"),
+              )
+            : ListView.builder(
+                itemCount: mealToDisplay.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: MealItem(
+                        id: mealToDisplay[index]['id'],
+                        title: mealToDisplay[index]["title"],
+                        imageUrl: mealToDisplay[index]["imageUrl"],
+                        duration: mealToDisplay[index]["duration"],
+                        complexity: mealToDisplay[index]["complexity"],
+                        affordability: mealToDisplay[index]["affordability"]),
+                  );
+                }));
   }
 }
