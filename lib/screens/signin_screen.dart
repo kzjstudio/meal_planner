@@ -4,6 +4,7 @@ import 'package:meal_planner/widgets/main_drawer.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
+  static const routeName = "/signin";
 
   @override
   State<SigninScreen> createState() => _SigninScreenState();

@@ -33,10 +33,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     var data = await db.get();
     data.docs.forEach((element) {
       tempList.add(element.data());
-      for (var mealTitle in favoritesRetrived) {
-        newList.add(tempList.where((element) => element["title"] == mealTitle)
-            as Map<String, dynamic>);
-      }
     });
     setState(() {
       mealToDisplay = newList;

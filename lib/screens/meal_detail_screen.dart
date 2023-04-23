@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal_planner/dummy_data.dart';
+import 'package:meal_planner/screens/signin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MealDetailScreen extends StatelessWidget {
@@ -11,6 +13,8 @@ class MealDetailScreen extends StatelessWidget {
   final String id;
 
   late List<String> favoriteList;
+
+  final user = FirebaseAuth.instance.currentUser;
 
   void saveFavoriteMeal(String meal) async {
     String favorites = "favorites";
@@ -104,9 +108,11 @@ class MealDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          saveFavoriteMeal(selectedMeal.title);
+          user == null
+              ? Navigator.of(context).pushNamed("/signin")
+              : print("need to save ");
         },
-        child: Icon(Icons.star_border),
+        child: const Icon(Icons.star_border),
       ),
     );
   }

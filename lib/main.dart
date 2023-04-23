@@ -5,6 +5,7 @@ import 'package:meal_planner/models/user.dart';
 import 'package:meal_planner/screens/favorites_screen.dart';
 import 'package:meal_planner/screens/filters_screen.dart';
 import 'package:meal_planner/screens/meal_detail_screen.dart';
+import 'package:meal_planner/screens/signin_screen.dart';
 import 'package:meal_planner/screens/tabs_screen.dart';
 import 'package:meal_planner/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
           FiltersScreen.routeName: (context) =>
               FiltersScreen(_setFilters, _filters),
           FavoritesScreen.routeName: (context) => FavoritesScreen(),
+          SigninScreen.routeName: (context) => SigninScreen(),
         },
       ),
     );
